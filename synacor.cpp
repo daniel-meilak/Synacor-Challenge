@@ -1,36 +1,20 @@
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <cstdlib>
 #include <vector>
 #include <cstdint>
 
+#include "synacor.h"
+
 int main(){
 
-   std::streampos file_size;
-   //char * memblock;
+   comp_t comp;
 
-   std::ifstream input ("challenge.bin", std::ios::in|std::ios::binary|std::ios::ate);
+   // read data into memory
+   load_mem(comp.memory,"challenge.bin");
 
-   if (!input.is_open()){
-      std::cerr << "Could not read input file.\n";
-      std::exit(EXIT_FAILURE);
-   }
+   comp.run();
 
-   // get file size from end of file
-   file_size = input.tellg();
-
-   // move read pos to beginning of file
-   input.seekg(0,std::ios::beg);
-
-   // vector to store data
-   std::vector<uint16_t> file_data(file_size);
-
-   // read file into vector
-   input.read((char*) &file_data[0], file_size);
-
-   input.close();
-
-   return 0;
+   return comp.error;
 }
+
 
